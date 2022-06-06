@@ -1,133 +1,87 @@
 name: SynCluster
 channels:
-  - pytorch
-  - dglteam
   - conda-forge
-  - https://mirrors.tencent.com/anaconda/pkgs/main
-  - https://mirrors.tencent.com/anaconda/pkgs/r
-  - https://mirrors.tencent.com/anaconda/pkgs/free
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
-  - _openmp_mutex=4.5=1_gnu
-  - blas=1.0=mkl
-  - boost=1.74.0=py39h5472131_4
-  - boost-cpp=1.74.0=h359cf19_5
-  - brotli=1.0.9=h7f98852_6
-  - brotli-bin=1.0.9=h7f98852_6
-  - brotlipy=0.7.0=py39h27cfd23_1003
+  - _openmp_mutex=4.5=2_gnu
+  - boost=1.74.0=py39h5472131_5
+  - boost-cpp=1.74.0=h312852a_4
+  - brotli=1.0.9=h166bdaf_7
+  - brotli-bin=1.0.9=h166bdaf_7
   - bzip2=1.0.8=h7f98852_4
-  - ca-certificates=2022.3.29=h06a4308_0
-  - cairo=1.16.0=ha00ac49_1009
-  - certifi=2021.10.8=py39h06a4308_2
-  - cffi=1.15.0=py39hd667e15_1
-  - charset-normalizer=2.0.4=pyhd3eb1b0_0
-  - cryptography=36.0.0=py39h9ce1e76_0
-  - cudatoolkit=10.2.89=hfd86e86_1
+  - ca-certificates=2022.5.18.1=ha878542_0
+  - cairo=1.16.0=h6cf1ce9_1008
+  - certifi=2022.5.18.1=py39hf3d152e_0
   - cycler=0.11.0=pyhd8ed1ab_0
-  - dgl=0.8.2=py39_0
-  - ffmpeg=4.3=hf484d3e_0
-  - font-ttf-dejavu-sans-mono=2.37=hab24e00_0
-  - font-ttf-inconsolata=3.000=h77eed37_0
-  - font-ttf-source-code-pro=2.038=h77eed37_0
-  - font-ttf-ubuntu=0.83=hab24e00_0
-  - fontconfig=2.13.1=hba837de_1005
-  - fonts-conda-ecosystem=1=0
-  - fonts-conda-forge=1=0
-  - fonttools=4.28.1=py39h3811e60_0
+  - expat=2.4.8=h27087fc_0
+  - fontconfig=2.14.0=h8e229c2_0
+  - fonttools=4.33.3=py39hb9d737c_0
   - freetype=2.10.4=h0708190_1
-  - gettext=0.19.8.1=h73d1719_1008
-  - gmp=6.2.1=h2531618_2
-  - gnutls=3.6.15=he1e5248_0
-  - greenlet=1.1.2=py39he80948d_1
-  - icu=69.1=h9c3ff4c_0
-  - idna=3.3=pyhd3eb1b0_0
-  - intel-openmp=2021.4.0=h06a4308_3561
-  - jbig=2.1=h7f98852_2003
-  - joblib=1.1.0=pyhd3eb1b0_0
-  - jpeg=9d=h36c2ea0_0
-  - kiwisolver=1.3.2=py39h1a9c180_1
-  - lame=3.100=h7b6447c_0
+  - gettext=0.19.8.1=h0b5b191_1005
+  - giflib=5.2.1=h36c2ea0_2
+  - greenlet=1.1.2=py39h5a03fae_2
+  - icu=68.2=h9c3ff4c_0
+  - jpeg=9e=h166bdaf_1
+  - kiwisolver=1.4.2=py39hf939315_1
   - lcms2=2.12=hddcbb42_0
   - ld_impl_linux-64=2.36.1=hea4e1c9_2
   - lerc=3.0=h9c3ff4c_0
-  - libbrotlicommon=1.0.9=h7f98852_6
-  - libbrotlidec=1.0.9=h7f98852_6
-  - libbrotlienc=1.0.9=h7f98852_6
-  - libdeflate=1.8=h7f98852_0
-  - libffi=3.4.2=h7f98852_5
-  - libgcc-ng=11.2.0=h1d223b6_11
-  - libgfortran-ng=7.5.0=ha8ba4b0_17
-  - libgfortran4=7.5.0=ha8ba4b0_17
-  - libglib=2.70.1=h174f98d_0
-  - libgomp=11.2.0=h1d223b6_11
+  - libblas=3.9.0=14_linux64_openblas
+  - libbrotlicommon=1.0.9=h166bdaf_7
+  - libbrotlidec=1.0.9=h166bdaf_7
+  - libbrotlienc=1.0.9=h166bdaf_7
+  - libcblas=3.9.0=14_linux64_openblas
+  - libdeflate=1.10=h7f98852_0
+  - libffi=3.3=h58526e2_2
+  - libgcc-ng=12.1.0=h8d9b700_16
+  - libgfortran-ng=12.1.0=h69a702a_16
+  - libgfortran5=12.1.0=hdcd56e2_16
+  - libglib=2.68.4=h3e27bee_0
+  - libgomp=12.1.0=h8d9b700_16
   - libiconv=1.16=h516909a_0
-  - libidn2=2.3.2=h7f8727e_0
+  - liblapack=3.9.0=14_linux64_openblas
+  - libopenblas=0.3.20=pthreads_h78a6416_0
   - libpng=1.6.37=h21135ba_2
-  - libstdcxx-ng=11.2.0=he4da1e4_11
-  - libtasn1=4.16.0=h27cfd23_0
-  - libtiff=4.3.0=h6f004c6_2
-  - libunistring=0.9.10=h27cfd23_0
+  - libstdcxx-ng=12.1.0=ha89aaad_16
+  - libtiff=4.4.0=h0fcbabc_0
   - libuuid=2.32.1=h7f98852_1000
-  - libuv=1.40.0=h7b6447c_0
-  - libwebp-base=1.2.1=h7f98852_0
+  - libwebp=1.2.2=h3452ae3_0
+  - libwebp-base=1.2.2=h7f98852_1
   - libxcb=1.13=h7f98852_1004
-  - libxml2=2.9.12=h885dcf4_1
-  - libzlib=1.2.11=h36c2ea0_1013
+  - libzlib=1.2.12=h166bdaf_0
   - lz4-c=1.9.3=h9c3ff4c_1
-  - matplotlib-base=3.5.0=py39h2fa2bec_0
-  - mkl=2021.4.0=h06a4308_640
-  - mkl-service=2.4.0=py39h7f8727e_0
-  - mkl_fft=1.3.1=py39hd3c417c_0
-  - mkl_random=1.2.2=py39h51133e4_0
+  - matplotlib-base=3.5.2=py39h700656a_0
   - munkres=1.1.4=pyh9f0ad1d_0
-  - ncurses=6.2=h58526e2_4
-  - nettle=3.7.3=hbbd107a_1
-  - networkx=2.7.1=pyhd3eb1b0_0
-  - numpy=1.21.5=py39he7a7128_1
-  - numpy-base=1.21.5=py39hf524024_1
-  - olefile=0.46=pyh9f0ad1d_1
-  - openh264=2.1.1=h4ff587b_0
+  - ncurses=6.3=h27087fc_1
+  - numpy=1.22.4=py39hc58783e_0
   - openjpeg=2.4.0=hb52868f_1
-  - openssl=3.0.0=h7f98852_2
+  - openssl=1.1.1o=h166bdaf_0
   - packaging=21.3=pyhd8ed1ab_0
-  - pandas=1.3.4=py39hde0f152_1
+  - pandas=1.4.2=py39h1832856_2
   - pcre=8.45=h9c3ff4c_0
-  - pillow=8.4.0=py39ha612740_0
-  - pip=21.3.1=pyhd8ed1ab_0
+  - pillow=9.1.1=py39hae2aec6_1
+  - pip=22.1.2=pyhd8ed1ab_0
   - pixman=0.40.0=h36c2ea0_0
-  - psutil=5.8.0=py39h27cfd23_1
   - pthread-stubs=0.4=h36c2ea0_1001
-  - pycairo=1.20.1=py39hedcb9fc_1
-  - pycparser=2.21=pyhd3eb1b0_0
-  - pyopenssl=22.0.0=pyhd3eb1b0_0
-  - pyparsing=3.0.6=pyhd8ed1ab_0
-  - pysocks=1.7.1=py39h06a4308_0
-  - python=3.9.7=hf930737_3_cpython
+  - pycairo=1.21.0=py39h0934665_1
+  - pyparsing=3.0.9=pyhd8ed1ab_0
+  - python=3.9.0=hffdb5ce_5_cpython
   - python-dateutil=2.8.2=pyhd8ed1ab_0
   - python_abi=3.9=2_cp39
-  - pytorch=1.11.0=py3.9_cuda10.2_cudnn7.6.5_0
-  - pytorch-mutex=1.0=cuda
-  - pytz=2021.3=pyhd8ed1ab_0
+  - pytz=2022.1=pyhd8ed1ab_0
   - rdchiral_cpp=1.1.2=py39h2bf3243_0
-  - rdkit=2021.09.2=py39hccf6a74_0
+  - rdkit=2021.09.5=py39h89e00b9_0
   - readline=8.1=h46c0cb4_0
   - reportlab=3.5.68=py39he59360d_1
-  - requests=2.27.1=pyhd3eb1b0_0
-  - scikit-learn=1.0.2=py39h51133e4_1
-  - scipy=1.7.3=py39hc147768_0
-  - setuptools=59.1.1=py39hf3d152e_0
+  - setuptools=62.3.2=py39hf3d152e_0
   - six=1.16.0=pyh6c4a22f_0
-  - sqlalchemy=1.4.27=py39h3811e60_0
-  - sqlite=3.36.0=h9cd32fc_2
-  - threadpoolctl=2.2.0=pyh0d69192_0
-  - tk=8.6.11=h27826a3_1
-  - torchaudio=0.11.0=py39_cu102
-  - torchvision=0.12.0=py39_cu102
-  - typing_extensions=4.1.1=pyh06a4308_0
-  - tzdata=2021e=he74cb21_0
-  - urllib3=1.26.8=pyhd3eb1b0_0
-  - wheel=0.37.0=pyhd8ed1ab_1
+  - sqlalchemy=1.4.37=py39hb9d737c_0
+  - sqlite=3.38.5=h4ff8645_0
+  - tk=8.6.12=h27826a3_0
+  - tzdata=2022a=h191b570_0
+  - unicodedata2=14.0.0=py39hb9d737c_1
+  - wheel=0.37.1=pyhd8ed1ab_0
   - xorg-kbproto=1.0.7=h7f98852_1002
   - xorg-libice=1.0.10=h7f98852_0
   - xorg-libsm=1.2.3=hd9c2040_1000
@@ -140,12 +94,27 @@ dependencies:
   - xorg-xextproto=7.3.0=h7f98852_1002
   - xorg-xproto=7.0.31=h7f98852_1007
   - xz=5.2.5=h516909a_1
-  - zlib=1.2.11=h36c2ea0_1013
-  - zstd=1.5.0=ha95c52a_0
+  - zlib=1.2.12=h166bdaf_0
+  - zstd=1.5.2=h8a70e8d_1
   - pip:
+    - charset-normalizer==2.0.12
     - configargparse==1.5.3
+    - dgl==0.6.1
+    - idna==3.3
+    - joblib==1.1.0
+    - networkx==2.8.3
     - pyyaml==6.0
+    - requests==2.27.1
+    - scikit-learn==1.1.1
+    - scipy==1.8.1
     - sentencepiece==0.1.96
+    - sklearn==0.0
+    - threadpoolctl==3.1.0
+    - torch==1.8.0
+    - torchaudio==0.8.0
     - torchtext==0.5.0
-    - tqdm==4.62.3
+    - torchvision==0.9.0
+    - tqdm==4.64.0
+    - typing-extensions==4.2.0
+    - urllib3==1.26.9
 prefix: /home/tiantao/.conda/envs/SynCluster
