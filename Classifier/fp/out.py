@@ -48,7 +48,7 @@ def write_edits(args, model, write_loader):
 def main(learning_rate, weight_decay, schedule_step, drop_out, args, test_loader):
     print("recommeding begin")
     print(time.ctime())
-    model_name = 'USPTO_50k_optimizer_original_%s_fp_for.pth'%(args["name"])
+    model_name = '%s_optimizer_original_%s_fp.pth' % (args['dataset'],args["name"])
     args['model_path'] = '../models/' + model_name
     model, _, _, _ = load_model(args, learning_rate, weight_decay, int(schedule_step), drop_out)
     checkpoint = torch.load(args['model_path'])
