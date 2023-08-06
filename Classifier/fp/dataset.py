@@ -13,16 +13,16 @@ class USPTODataset(object):
             df = df.loc[df["Rank"]==rank].reset_index()
         self.train_ids = df.index[df['split'] == 'train'].values
         self.val_ids = df.index[df['split'] == 'valid'].values
-        self.smiles = df['reac_smiles'].tolist()
+        self.smiles = df['prod_smiles'].tolist()
         #cluster_name = str(args["cluster"])+"_"+"class"
         self.labels = [[t] for t in df[args["cluster_name"]]]
         self.cluster = int(max(self.labels)[0]+1)
-        pickle_name = "../data/fp_%s_FC2_50k_forward.pkl"%(rank)
+        pickle_name = "../data/fp_%s_FC2_50k.pkl"%(rank)
         if os.path.exists(pickle_name):
             with  open(pickle_name, 'rb')  as f1:
                 self.fps = pickle.load(f1)
         else:
-            self.fps = [np.array(AllChem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=8192)) for smi in df['reac_smiles']]
+            self.fps = [np.array(AllChem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=8192)) for smi in df['prod_smiles']]
             pickle.dump(self.fps, open(pickle_name, "wb"))
 
     def __getitem__(self, item):
@@ -34,7 +34,7 @@ class USPTODataset(object):
 class USPTOTestDataset(object):
     def __init__(self, args):
         df = pd.read_csv("../../clustering/scripts/data/cluster_test_50k.csv")
-        self.smiles = df['reac_smiles'].tolist()
+        self.smiles = df['prod_smiles'].tolist()
         #cluster_name = str(args["cluster"]) + "_" + "class"
         pickle_name = "../data/fp_test_test_%s_for.pkl" % (args["cluster"])
         if os.path.exists(pickle_name):
@@ -42,7 +42,7 @@ class USPTOTestDataset(object):
                 self.fps = pickle.load(f1)
         else:
             self.fps = [np.array(AllChem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi), 2, nBits=8192)) for smi
-                        in df['reac_smiles']]
+                        in df['prod_smiles']]
             pickle.dump(self.fps, open(pickle_name, "wb"))
 
     def __getitem__(self, item):
