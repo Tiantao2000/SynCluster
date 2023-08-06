@@ -113,7 +113,6 @@ def main(args):
     h = [canonicalize_and_remove(ss) for ss in file2["prod_smiles"]]
     train_type = list(file1[args["choose_fp"]])
     valid_type = list(file2[args["choose_fp"]])
-
     if args["forward"]:
         a = ["class" + str(q) + " " + p for q, p in zip(train_type, a)]
         c = ["class" + str(q) + " " + p for q, p in zip(valid_type, c)]
@@ -128,6 +127,8 @@ def main(args):
             ma_v = MediumAug1(g, h, valid_type, 19, "valid", args)
             ma_v.augment()
         else:
+            ma_v = MediumAug1(h,g,valid_type,19,"valid",args)
+            ma_v.augment()
             ma = MediumAug1(f,e,train_type,19,"train",args)
             ma.augment()                                    #arg-train
             ma_v = MediumAug1(h,g,valid_type,19,"valid",args)
@@ -158,7 +159,7 @@ if __name__ == '__main__':
     parser.add_argument('--choose_fp', default="fp_FC2_r1_cutoff_0.6", type=str)
     parser.add_argument('--aug', default=False,type=bool)
     parser.add_argument('--forward', default=False,type=bool)
-    parser.add_argument('--split', default="chem", choices=["token","chem"])
+    parser.add_argument('--split', default="token", choices=["token","chem"])
     args = parser.parse_args().__dict__
     main(args)
 
