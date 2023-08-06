@@ -24,10 +24,10 @@ world_size: 1
 gpu_ranks: [0]
 
 # Remove or modify these lines for bigger files
-save_checkpoint_steps: 50000
+save_checkpoint_steps: 10000
 keep_checkpoint: 20
 seed: 42
-train_steps: 1000000
+train_steps: 100000
 warmup_steps: 8000
 report_every: 50000
 
