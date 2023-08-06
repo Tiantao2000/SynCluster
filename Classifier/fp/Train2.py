@@ -8,6 +8,8 @@ import numpy as np
 from sklearn.metrics import precision_recall_fscore_support
 import warnings
 from collections import defaultdict
+from pycm import *
+
 
 torch.backends.cudnn.enabled = False
 warnings.filterwarnings('ignore')
@@ -64,9 +66,9 @@ def run_a_train_epoch(args, model, data_loader, loss_criterion, optimizer,epoch)
         total_loss.backward()
         nn.utils.clip_grad_norm_(model.parameters(), args['max_clip'])
         optimizer.step()
-        if batch_id % args['print_every'] == 0:
-            print('\nbatch %d/%d, loss %.4f, acc %.4f' % (batch_id + 1, len(data_loader), total_loss.item(), acc_a), end='', flush=True)
-    print('\ntraining loss: %.4f, training acc: %.4f' % (train_loss/batch_id, train_acc/batch_id))
+       # if batch_id % args['print_every'] == 0:
+           # print('\nbatch %d/%d, loss %.4f, acc %.4f' % (batch_id + 1, len(data_loader), total_loss.item(), acc_a), end='', flush=True)
+    #print('\ntraining loss: %.4f, training acc: %.4f' % (train_loss/batch_id, train_acc/batch_id))
     return train_acc/batch_id, train_loss/batch_id
 
 def run_an_eval_epoch(args, model, data_loader, loss_criterion,fig):
@@ -121,25 +123,28 @@ def run_an_eval_epoch(args, model, data_loader, loss_criterion,fig):
             total_loss = loss_a
             val_acc += total_acc
             val_loss += total_loss.item()
+    cm = ConfusionMatrix(actual_vector=all_labels, predict_vector=all_pred)
     P_macro,R_macro,f1_macro,_ = precision_recall_fscore_support(all_labels, all_pred, average='macro')
     P_micro,R_micro,f1_micro,_ = precision_recall_fscore_support(all_labels, all_pred, average='micro')
     print("macro_precision is %.6f, macro_Recall is %.6f, macro_fscore is %.6f" % (P_macro,R_macro,f1_macro))
     print("micro_precision is %.6f, micro_Recall is %.6f, micro_fscore is %.6f" % (P_micro,R_micro,f1_micro))
     #print("macro_auc is %.6f, micro_auc is %.6f " % (roc_auc["macro"],roc_auc["micro"]))
     print("val_loss is %.6f, val_top_1_acc is %.6f, val_top_3_acc is %.6f, val_top_5_acc is %.6f, val_top_10_acc is %.6f " % (val_loss/batch_id, top_1_acc/nlens,top_3_acc/nlens,top_5_acc/nlens,top_10_acc/nlens))
-    return val_loss/batch_id, top_1_acc/batch_id,top_3_acc/batch_id, top_5_acc/batch_id
+    print("kappa is %.6f"%(cm.overall_stat['Kappa']))
+    print("mcc is %.6f"%(cm.overall_stat['Overall MCC']))
+    return val_loss/batch_id, top_1_acc/nlens,top_3_acc/nlens,top_5_acc/nlens
 
 
 
 
 def main(learning_rate, weight_decay, schedule_step, drop_out, args, train_loader, val_loader):
     history = defaultdict(list)
-    model_name = '%s_optimizer_original_%s_fp.pth' % (args['dataset'],args["cluster"])
+    model_name = '%s_optimizer_original_%s_fp_for.pth' % (args['dataset'],args["cluster_name"])
     args['model_path'] = '../models/' + model_name
     model, loss_criterion, optimizer, scheduler =  load_model(args, learning_rate,weight_decay, int(schedule_step),drop_out)
-    val_max_top1 = 0.6
+    val_max_top1 = 0.60
     for epoch in range(50):
-        print("epoch:"+str(epoch))
+        #print("epoch:"+str(epoch))
         train_acc,train_loss = run_a_train_epoch(args, model, train_loader, loss_criterion, optimizer,epoch)
         history['train_acc'].append(train_acc)
         history['train_loss'].append(train_loss)
@@ -154,13 +159,14 @@ def main(learning_rate, weight_decay, schedule_step, drop_out, args, train_loade
             dir = args['model_path']
             torch.save(state,dir)
             val_max_top1 = val_top1
+    print(args["cluster_name"]+"max_top_1"+"is"+str(val_top1))
     #plot_training_history(history,args)
     return val_max_top1
 
 
 
 if __name__ == '__main__':
-    parser = ArgumentParser('LocalRetro training arguements')
+    parser = ArgumentParser('SynCluster training arguements')
     parser.add_argument('-g', '--gpu', default='cuda:0', help='GPU device to use')
     parser.add_argument('-d', '--dataset', default='USPTO_50k', help='Dataset to use')
     parser.add_argument('-b', '--batch-size', default=128, help='Batch size of dataloader')
@@ -181,12 +187,19 @@ if __name__ == '__main__':
     args['data_dir'] = '../data/%s' % args['dataset']
     rank = False
     results = []
-    args["cluster_name"] = "fp_FC2_r1_cutoff_0.6"
-    train_loader, val_loader,cluster = load_dataloader(args,rank)
-    args["cluster"] = cluster
-    print("cluster is "+str(args["cluster"]))
-    ls = main(args["learning_rate"], args["weight_decay"], args["schedule_step"], args["drop_out"], args, train_loader, val_loader)
-
-
-
-
+    #modes = ["AP3","MG2","TT","FC2"]
+    #template_model = ["r0","r1","r2","r3","default"]
+    #cut_offs = [0.5,0.6,0.7]
+    modes = ["FC2"]
+    template_model = ["r1"]
+    cut_offs = [0.6]
+    for mode in modes:
+        for template in template_model:
+            for cut_off in cut_offs:
+                args["cluster_name"] = "fp_"+mode+"_"+template+"_cutoff_"+str(cut_off)
+                #args["cluster_name"] = "big_cluster"
+                print("use fp is" + args["cluster_name"])
+                train_loader, val_loader,cluster = load_dataloader(args,rank)
+                args["cluster"] = cluster
+                print("cluster is "+str(args["cluster"]))
+                ls = main(args["learning_rate"], args["weight_decay"], args["schedule_step"], args["drop_out"], args, train_loader, val_loader)
