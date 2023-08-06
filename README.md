@@ -41,7 +41,7 @@ python out.py
 ## Tansformer data preparation (non-augment)
 ```
 cd ../../preprocess
-python process.py
+python preprocess.py
 ```
 ## Tansformer Training (non-augment)
 ```
