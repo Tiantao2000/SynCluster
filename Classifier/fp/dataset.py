@@ -13,16 +13,16 @@ class USPTODataset(object):
             df = df.loc[df["Rank"]==rank].reset_index()
         self.train_ids = df.index[df['split'] == 'train'].values
         self.val_ids = df.index[df['split'] == 'valid'].values
-        self.smiles = df['prod_smiles'].tolist()
+        self.smiles = df['reac_smiles'].tolist()
         #cluster_name = str(args["cluster"])+"_"+"class"
         self.labels = [[t] for t in df[args["cluster_name"]]]
         self.cluster = int(max(self.labels)[0]+1)
-        pickle_name = "../data/fp_%s_MG2_small.pkl"%(rank)
+        pickle_name = "../data/fp_%s_FC2_50k_forward.pkl"%(rank)
         if os.path.exists(pickle_name):
             with  open(pickle_name, 'rb')  as f1:
                 self.fps = pickle.load(f1)
         else:
-            self.fps = [np.array(AllChem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=8192)) for smi in df['prod_smiles']]
+            self.fps = [np.array(AllChem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=8192)) for smi in df['reac_smiles']]
             pickle.dump(self.fps, open(pickle_name, "wb"))
 
     def __getitem__(self, item):
@@ -34,9 +34,9 @@ class USPTODataset(object):
 class USPTOTestDataset(object):
     def __init__(self, args):
         df = pd.read_csv("../../clustering/scripts/data/cluster_test_50k.csv")
-        self.smiles = df['prod_smiles'].tolist()
+        self.smiles = df['reac_smiles'].tolist()
         #cluster_name = str(args["cluster"]) + "_" + "class"
-        pickle_name = "../data/fp_test_test_%small.pkl" % (args["cluster"])
+        pickle_name = "../data/fp_test_test_%s_for.pkl" % (args["cluster"])
         if os.path.exists(pickle_name):
             with  open(pickle_name, 'rb') as f1:
                 self.fps = pickle.load(f1)
@@ -53,12 +53,17 @@ class USPTOTestDataset(object):
 
 class USPTOvisDataset(object):
     def __init__(self, args):
-        df = pd.read_csv("../../clustering/scripts/data/cluster_train_valid.csv")
+        df = pd.read_csv("../../clustering/scripts/data/50k_small/cluster_train_valid_50k.csv")
+        template_csv = pd.read_csv("../../clustering/scripts/data/50k_small/uspto_50k_preparation.csv")
+        self.prod_center = [a.split(">>")[0] for a in template_csv["template_r3"][template_csv['split'] == 'valid']]
+
         self.smiles = df['prod_smiles'][df['split'] == 'valid'].tolist()
 
         #cluster_name = str(args["cluster"]) + "_" + "class"
-        pickle_name = "../data/fp_vis_%s_clean.pkl" % (args["cluster"])
+        pickle_name = "../data/fp_vis_%s_clean.pkl" % (args["cluster_name"])
         self.labels = [[t] for t in df[args["cluster_name"]][df['split'] == 'valid']]
+        self.cluster = int(max(self.labels)[0]+1)
+
         if os.path.exists(pickle_name):
             with  open(pickle_name, 'rb')  as f1:
                 self.fps = pickle.load(f1)
@@ -68,7 +73,7 @@ class USPTOvisDataset(object):
             pickle.dump(self.fps, open(pickle_name, "wb"))
 
     def __getitem__(self, item):
-        return self.smiles[item], self.fps[item], self.labels[item]  #, self.labels[item]  # remove the test
+        return self.smiles[item], self.fps[item], self.labels[item],self.prod_center[item]
 
     def __len__(self):
         return len(self.smiles)
