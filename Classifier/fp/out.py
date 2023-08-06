@@ -4,6 +4,7 @@ import torch.nn as nn
 from utils import load_model, load_dataloader, predict
 from Train2 import calculate_top_k_accuracy,get_top_k_result
 import pandas as pd
+import time
 
 def write_edits(args, model, write_loader):
     model.eval()
@@ -41,17 +42,21 @@ def write_edits(args, model, write_loader):
     sourcefile["top_10_pred_labels"] = [[b for b in a] for a in test_top_10_hard]
     sourcefile["top_10_pred_logits"] = test_top_10_logits
     sourcefile["logits"] = test_logits
-    sourcefile.to_csv("out/cluster_test_small.csv")
+    sourcefile.to_csv("out/cluster_test_%s.csv"%(args["name"]))
 
 
 def main(learning_rate, weight_decay, schedule_step, drop_out, args, test_loader):
-    model_name = 'USPTO_50k_optimizer_original_77_fp.pth'
+    print("recommeding begin")
+    print(time.ctime())
+    model_name = 'USPTO_50k_optimizer_original_%s_fp_for.pth'%(args["name"])
     args['model_path'] = '../models/' + model_name
     model, _, _, _ = load_model(args, learning_rate, weight_decay, int(schedule_step), drop_out)
     checkpoint = torch.load(args['model_path'])
     model.load_state_dict(checkpoint['net'])
     write_edits(args, model, test_loader)
-    
+    print(time.ctime())
+    print("recommending done")
+
 
 if __name__ == '__main__':
     parser = ArgumentParser('LocalRetro testing arguements')
@@ -68,11 +73,12 @@ if __name__ == '__main__':
     parser.add_argument('-nw', '--num-workers', type=int, default=0, help='Number of processes for data loading')
     parser.add_argument('-do', '--drop_out', type=int, default=0.8, help='dropout')
     parser.add_argument('-nb', '--nbit', type=int, default=8192, help='the nbits of fingerprint model')
+    parser.add_argument('-nm', '--name', type=str, default="fp_FC2_r1_cutoff_0.6", help='the nbits of fingerprint model')
     args = parser.parse_args().__dict__
     args['mode'] = 'test'
     args['device'] = torch.device(args['gpu']) if torch.cuda.is_available() else torch.device('cpu')
     print('Using device %s' % args['device'])
     args['data_dir'] = '../data/%s' % args['dataset']
     test_loader = load_dataloader(args,rank=False)
-    args['result_path'] = '../outputs/fp/%s_out_test.csv' %args["cluster"]
+    #args['result_path'] = '../outputs/fp/%s_out_test.csv' %args["cluster"]
     main(args["learning_rate"], args["weight_decay"], args["schedule_step"], args["drop_out"], args, test_loader)
