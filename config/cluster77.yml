@@ -6,7 +6,7 @@ src_vocab:  output/vocab/source77.vocab_cluster.src
 tgt_vocab: output/vocab/source77.vocab_cluster.src
 
 ## Where the model will be saved
-save_model: model/cluster77
+save_model: model/cluster77_noaug
  
 # Prevent overwriting existing files in the folder
 overwrite: True
