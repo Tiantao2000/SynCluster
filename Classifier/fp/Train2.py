@@ -139,7 +139,7 @@ def run_an_eval_epoch(args, model, data_loader, loss_criterion,fig):
 
 def main(learning_rate, weight_decay, schedule_step, drop_out, args, train_loader, val_loader):
     history = defaultdict(list)
-    model_name = '%s_optimizer_original_%s_fp_for.pth' % (args['dataset'],args["cluster_name"])
+    model_name = '%s_optimizer_original_%s_fp.pth' % (args['dataset'],args["cluster_name"])
     args['model_path'] = '../models/' + model_name
     model, loss_criterion, optimizer, scheduler =  load_model(args, learning_rate,weight_decay, int(schedule_step),drop_out)
     val_max_top1 = 0.60
