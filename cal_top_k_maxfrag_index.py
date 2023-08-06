@@ -16,8 +16,9 @@ def get_MaxFrag(smiles):
 
 def read_lines(filename):
     with open(filename, "r") as file:
-        lines = file.read().splitlines()
-        newlines = [line.replace(" ","") for line in lines]
+        lines = file.readlines()
+        newlines = [line.strip("\n").replace(" ","") for line in lines]
+        print(newlines[0])
     return newlines
 
 def isomer_match(pred_smi, reac_smi, MaxFrag = False):
@@ -87,7 +88,7 @@ def clean(lines):
         pickle.dump(lines, file)
 
 
-def choose(lines,w=0.2):
+def choose(lines,w=0.1):
     lines=clean(lines)
     with open("lines.pkl", 'rb') as file:
         lines = pickle.load(file)            #lines = clean(lines)
@@ -103,10 +104,10 @@ def choose(lines,w=0.2):
                 except:
                     score = 0
                 if score !=0:
-                    index = [tw_list.count(smi) for tw_list in line]
-                type_count = list(range(len(index)))
+                    pp = [ap.count(smi) for ap in line]
+                type_count = list(range(len(pp)))
                 if smi not in thrity_choose:
-                    score = sum([x/(1+0.2*y) for x,y in zip(index,type_count)])
+                    score = sum([x/(1+0.5*y) for x,y in zip(pp,type_count)])
                 else:
                     score = 0
                 score_list.append(score)
@@ -121,7 +122,7 @@ def choose(lines,w=0.2):
 
 
 def main(args):   #acquire the size output
-        goundtruthfile_name = "output/output/test.targets.txt"
+        goundtruthfile_name = "output/output/test.sources.txt"
         top_k = [1,3,5,10]
         reac_lines = read_lines(goundtruthfile_name)
         top_k_list = []
@@ -129,7 +130,7 @@ def main(args):   #acquire the size output
         with open(args["pkl_file"], 'rb') as file1:
             final_pred_lines2 = pickle.load(file1)
             if args["aug"]:
-                final_pred_lines2 = choose(final_pred_lines2,args["w"])
+                final_pred_lines2 = choose(final_pred_lines2)
         for a in top_k:
             final_pred_lines = []
             for i in range(len(final_pred_lines2)):
@@ -150,7 +151,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--aug', default=False, type=bool)
     parser.add_argument('--pkl_file', default="output/output/try.pickle", type=str)
-    parser.add_argument('--w', default=0.2, type=float)
+    parser.add_argument('--w', default=0.5, type=float)
     args = parser.parse_args().__dict__
     main(args)
 
