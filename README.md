@@ -3,6 +3,7 @@
 This research proposes an innovative framework named SynCluster to investigate the impact of fine-grained reaction-type labels, rendered by clustering, on downstream tasks.
 The directory contains source code of the unpublished article:
 Tiantao et al's SynCluster: A reaction type clustering and recommendation strategy for synthesis planning
+Note: 1-77 clustering types refer to 0-76 labels in the running.
 
 ## Download
 ```
