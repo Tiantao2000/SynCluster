@@ -1,6 +1,8 @@
 name: SynCluster
 channels:
   - conda-forge
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
@@ -97,24 +99,15 @@ dependencies:
   - zlib=1.2.12=h166bdaf_0
   - zstd=1.5.2=h8a70e8d_1
   - pip:
-    - charset-normalizer==2.0.12
-    - configargparse==1.5.3
-    - dgl==0.6.1
-    - idna==3.3
-    - joblib==1.1.0
-    - networkx==2.8.3
-    - pyyaml==6.0
-    - requests==2.27.1
-    - scikit-learn==1.1.1
-    - scipy==1.8.1
-    - sentencepiece==0.1.96
-    - sklearn==0.0
-    - threadpoolctl==3.1.0
-    - torch==1.8.0
-    - torchaudio==0.8.0
+    - charset-normalizer==3.3.2
+    - configargparse==1.7
+    - idna==3.4
+    - requests==2.31.0
+    - sentencepiece==0.1.99
+    - torch==1.11.0
     - torchtext==0.5.0
-    - torchvision==0.9.0
-    - tqdm==4.64.0
-    - typing-extensions==4.2.0
-    - urllib3==1.26.9
+    - torchvision==0.12.0
+    - tqdm==4.66.1
+    - typing-extensions==4.8.0
+    - urllib3==2.1.0
 prefix: /home/.conda/envs/SynCluster
