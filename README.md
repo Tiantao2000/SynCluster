@@ -28,25 +28,22 @@ conda activate SynCluster
 
 ## Clustering
 ```
-python scripts/01_data_preparation.py
-python scripts/02_template_correction.py
-python scripts/03_cluster.py
-python scripts/04_output.py
+python clustering/scripts/01_data_preparation.py
+python clustering/scripts/02_template_correction.py
+python clustering/scripts/03_cluster.py
+python clustering/scripts/04_output.py
 ```
 ## Classifier (not included in reagent's prediciton)
 ```
-cd Classifier/fp
-python Train2.py
-python out.py
+python Classifier/fp/Train2.py
+python Classifier/fp/out.py
 ```
 ## Tansformer data preparation (non-augment)
 ```
-cd ../../preprocess
-python preprocess.py
+python preprocess/preprocess.py
 ```
 ## Tansformer Training (non-augment)
 ```
-cd ..
 sh train.sh
 ```
 ## Inference (non-augment)
