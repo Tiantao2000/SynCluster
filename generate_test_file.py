@@ -88,7 +88,7 @@ if __name__ == '__main__':
     parser.add_argument('--original_file', default="Classifier/fp/out/cluster_test_fp_FC2_r1_cutoff_0.6.csv", type=str)
     parser.add_argument('--split', default="token", choices=["chem","token"])
     parser.add_argument('--choose_num', default=10, type=int)
-    parser.add_argument('--forward', default=True, type=bool)
+    parser.add_argument('--forward', default=False, type=bool)
     parser.add_argument('--output_file', default="re_index_uspto_test_out_top10.txt", type=str)
     args = parser.parse_args().__dict__
     main(args)
