@@ -122,7 +122,7 @@ def choose(lines,w=0.1):
 
 
 def main(args):   #acquire the size output
-        goundtruthfile_name = "output/output/test.sources.txt"
+        goundtruthfile_name = "output/output/test.targets"
         top_k = [1,3,5,10]
         reac_lines = read_lines(goundtruthfile_name)
         top_k_list = []
